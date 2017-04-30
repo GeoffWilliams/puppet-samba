@@ -68,7 +68,7 @@ my_hostname="<%= @hostname -%>"
 winbind_acct="<%= scope.lookupvar('samba::server::ads::winbind_acct') -%>"
 
 # which realm will we be joining?
-my_realm="<%= scope.lookupvar('samba::server::ads::realm') -%>"
+my_realm="<%= scope.lookupvar('samba::server::realm') -%>"
 
 # where should we create computer accounts?
 target_ou="<%= scope.lookupvar('samba::server::ads::target_ou') -%>"

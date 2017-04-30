@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-samba",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "author": "Geoff Williams",
   "summary": "Module for provisioning Samba",
   "license": "MIT",
@@ -32,6 +32,6 @@
     }
   ],
   "dependencies": [
-
+    {"name":"puppetlabs-stdlib","version_requirement":"4.16.0"}
   ]
 }

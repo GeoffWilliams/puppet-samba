@@ -47,9 +47,7 @@ class samba::server(
   }
 
   if $manage_package {
-    package { 'samba':
-      ensure => installed,
-    }
+    ensure_packages('samba', {ensure => installed})
   }
 
   file { $samba_config_dir:

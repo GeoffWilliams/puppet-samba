@@ -581,9 +581,7 @@
 112
 113
 114
-115
-116
-117</pre>
+115</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/server.pp', line 3</span>
@@ -635,9 +633,7 @@ class samba::server(
   }
 
   if $manage_package {
-    package { &#39;samba&#39;:
-      ensure =&gt; installed,
-    }
+    ensure_packages(&#39;samba&#39;, {ensure =&gt; installed})
   }
 
   file { $samba_config_dir:

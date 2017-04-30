@@ -25,26 +25,27 @@ class samba::server::ads(
   $perform_join               = true) {
 
   if $facts['os']['family'] == 'RedHat' {
-    $krb5_user_package = 'krb5-workstation'
-    if $facts['os']['release']['major'] == '6' {
-      $winbind_package = 'samba-winbind'
-    } else {
-      $winbind_package = 'samba-common'
-    }
+    $krb5_user_package  = 'krb5-workstation'
+    $winbind_package    = 'samba-winbind'
   } else {
-    $winbind_package = 'winbind'
-    $krb5_user_package = 'krb5-user'
+    $winbind_package    = 'winbind'
+    $krb5_user_package  = 'krb5-user'
   }
 
   package { [$krb5_user_package, $winbind_package, 'expect']:
-    ensure => installed;
+    ensure => installed,
+    before => Service['winbind'],
   }
 
-  include samba::server::winbind
+  service { 'winbind':
+    ensure  => running,
+    enable  => true,
+    require => Class['samba::server'],
+  }
 
   # notify winbind
   Samba::Server::Option {
-    notify => Class['Samba::Server::Winbind'],
+    notify => Service['winbind'],
   }
   samba::server::option {"winbind uid=${winbind_uid}": }
   samba::server::option {"winbind gid=${winbind_gid}": }

@@ -60,104 +60,31 @@
       <div id="content"><div id='filecontents'>
 <h1 id="label-Puppet+Samba+Module">Puppet Samba Module</h1>
 
-<p><a href="https://travis-ci.org/ajjahn/puppet-samba"><img
-src="https://travis-ci.org/ajjahn/puppet-samba.png?branch=master"></a></p>
+<p><a href="https://travis-ci.org/GeoffWilliams/puppet-samba"><img
+src="https://travis-ci.org/GeoffWilliams/puppet-samba.svg?branch=master"></a></p>
 
 <p>Module for provisioning Samba</p>
 
-<p>Supports:</p>
-<ul><li>
-<p>Ubuntu: 14.04, 12.04</p>
-</li><li>
-<p>Debian: 8.x, 7.x</p>
-</li><li>
-<p>CentOS: 7.x, 6.x</p>
-</li></ul>
-
-<p>Patches to support other operating systems are welcome.</p>
-
-<h2 id="label-Installation">Installation</h2>
-
-<p>Clone this repo to your Puppet modules directory</p>
-
-<pre class="code ruby"><code class="ruby">git clone git://github.com/ajjahn/puppet-samba.git samba</code></pre>
-
-<p>or</p>
-
-<pre class="code ruby"><code class="ruby">puppet module install ajjahn/samba</code></pre>
-
 <h2 id="label-Usage">Usage</h2>
 
-<p>Tweak and add the following to your site manifest:</p>
+<p>See reference and examples</p>
 
-<pre class="code ruby"><code class="ruby">node &#39;server.example.com&#39; {
-  class {&#39;samba::server&#39;:
-    workgroup     =&gt; &#39;example&#39;,
-    server_string =&gt; &quot;Example Samba Server&quot;,
-    interfaces    =&gt; &quot;eth0 lo&quot;,
-    security      =&gt; &#39;share&#39;
-  }
+<h2 id="label-Reference">Reference</h2>
 
-  samba::server::share {&#39;example-share&#39;:
-    comment              =&gt; &#39;Example Share&#39;,
-    path                 =&gt; &#39;/path/to/share&#39;,
-    guest_only           =&gt; true,
-    guest_ok             =&gt; true,
-    guest_account        =&gt; &quot;guest&quot;,
-    browsable            =&gt; false,
-    create_mask          =&gt; 0777,
-    force_create_mask    =&gt; 0777,
-    directory_mask       =&gt; 0777,
-    force_directory_mask =&gt; 0777,
-    force_group          =&gt; &#39;group&#39;,
-    force_user           =&gt; &#39;user&#39;,
-    copy                 =&gt; &#39;some-other-share&#39;,
-  }
-}</code></pre>
+<p><a
+href="https://rawgit.com/GeoffWilliams/puppet-filemagic/master/doc/index.html">generated
+documentation</a>.</p>
 
-<p>If you want join Samba server to Active Directory.</p>
+<p>Reference documentation is generated directly from source code using <a
+href="https://github.com/puppetlabs/puppet-strings">puppet-strings</a>. You
+may regenerate the documentation by running:</p>
 
-<pre class="code ruby"><code class="ruby">node &#39;server.example.com&#39; {
-  class {&#39;samba::server&#39;:
-    workgroup =&gt; &#39;example&#39;,
-    server_string =&gt; &quot;Example Samba Server&quot;,
-    interfaces =&gt; &quot;eth0 lo&quot;,
-    security =&gt; &#39;ads&#39;
-  }
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_puppet'>puppet</span> <span class='id identifier rubyid_strings'>strings</span>
+</code></pre>
 
-  samba::server::share {&#39;ri-storage&#39;:
-    comment           =&gt; &#39;RBTH User Storage&#39;,
-    path              =&gt; &quot;$smb_share&quot;,
-    browsable         =&gt; true,
-    writable          =&gt; true,
-    create_mask       =&gt; 0770,
-    directory_mask    =&gt; 0770,
-  }
-
-  class { &#39;samba::server::ads&#39;:
-      winbind_acct    =&gt; $::domain_admin,
-      winbind_pass    =&gt; $::admin_password,
-      realm           =&gt; &#39;EXAMPLE.COM&#39;,
-      nsswitch        =&gt; true,
-      target_ou       =&gt; &quot;Nix_Mashine&quot;
-  }
-}</code></pre>
-
-<p>Most configuration options are optional.</p>
-
-<h2 id="label-Contributing">Contributing</h2>
-<ol><li>
-<p>Fork it</p>
-</li><li>
-<p>Create your feature branch (<code>git checkout -b my-new-feature</code>)</p>
-</li><li>
-<p>Commit your changes (<code>git commit -am &#39;Added some
-feature&#39;</code>)</p>
-</li><li>
-<p>Push to the branch (<code>git push origin my-new-feature</code>)</p>
-</li><li>
-<p>Create new Pull Request</p>
-</li></ol>
+<p>The documentation is no substitute for reading and understanding the module
+source code, and all users should ensure they are familiar and comfortable
+with the operations this module performs before using it.</p>
 
 <h2 id="label-License">License</h2>
 
@@ -165,6 +92,103 @@ feature&#39;</code>)</p>
 <ul><li>
 <p><a
 href="http://www.opensource.org/licenses/MIT">www.opensource.org/licenses/MIT</a></p>
+</li></ul>
+
+<h2 id="label-Limitations">Limitations</h2>
+<ul><li>
+<p>Not supported by Puppet, Inc.</p>
+</li></ul>
+
+<h2 id="label-Development">Development</h2>
+
+<p>PRs accepted :)</p>
+
+<h2 id="label-Testing">Testing</h2>
+
+<p>This module supports testing using <a
+href="https://github.com/declarativesystems/pdqtest">PDQTest</a>.</p>
+
+<p>Test can be executed with:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_install'>install</span>
+<span class='id identifier rubyid_make'>make</span>
+</code></pre>
+
+<p>See <code>.travis.yml</code> for a working CI example</p>
+
+<h2 id="label-Acknowledgements">Acknowledgements</h2>
+
+<p>Based on an original module hosted at <a
+href="https://github.com/ajjahn/puppet-samba">github.com/ajjahn/puppet-samba</a>.
+Since upstream looks dormant, I created a new module updated for Puppet 4
+and including a customer patch.</p>
+
+<p>The authors below were obtained from the project&#39;s git history and they
+are acknowledged here as co-authors:</p>
+<ul><li>
+<p>Adam Jahn</p>
+</li><li>
+<p>Adrian Joian</p>
+</li><li>
+<p>Alexander Fisher</p>
+</li><li>
+<p>Artem Sidorenko</p>
+</li><li>
+<p>Christian Depner</p>
+</li><li>
+<p>Christian Döring</p>
+</li><li>
+<p>Daniel Sung</p>
+</li><li>
+<p>David Sheldon</p>
+</li><li>
+<p>erik-smit</p>
+</li><li>
+<p>gnieark</p>
+</li><li>
+<p>Hielke Jager</p>
+</li><li>
+<p>Iban Nieto</p>
+</li><li>
+<p>Jan Čapek</p>
+</li><li>
+<p>Jan Kanis</p>
+</li><li>
+<p>Jirgn Mssnr</p>
+</li><li>
+<p>John Hodrien</p>
+</li><li>
+<p>jonoterc</p>
+</li><li>
+<p>Kai Stian Olstad</p>
+</li><li>
+<p>Kurt Gardiner</p>
+</li><li>
+<p>Lebedev Vadim</p>
+</li><li>
+<p>Marc</p>
+</li><li>
+<p>Mark Phillips</p>
+</li><li>
+<p>Myles Steinhauser</p>
+</li><li>
+<p>Niklaus Giger</p>
+</li><li>
+<p>Pete Brown</p>
+</li><li>
+<p>Philipp Tölke</p>
+</li><li>
+<p>root</p>
+</li><li>
+<p>sauce@freenode</p>
+</li><li>
+<p>Timothy M Pollard</p>
+</li><li>
+<p>Tomas Edwardsson</p>
+</li><li>
+<p>Vladimir Rutsky</p>
+</li><li>
+<p>Vladislav Nazarenko</p>
 </li></ul>
 </div></div>
 

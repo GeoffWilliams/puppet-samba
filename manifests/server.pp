@@ -63,7 +63,7 @@ class samba::server(
     ensure => file,
     owner  => 'root',
     group  => 'root',
-    mode   => '0444',
+    mode   => '0644',
   }
 
   if $manage_service {

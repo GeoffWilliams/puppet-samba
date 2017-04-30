@@ -483,7 +483,8 @@ Dirctory</p>
 118
 119
 120
-121</pre>
+121
+122</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/server/ads.pp', line 4</span>
@@ -512,26 +513,27 @@ class samba::server::ads(
   $perform_join               = true) {
 
   if $facts[&#39;os&#39;][&#39;family&#39;] == &#39;RedHat&#39; {
-    $krb5_user_package = &#39;krb5-workstation&#39;
-    if $facts[&#39;os&#39;][&#39;release&#39;][&#39;major&#39;] == &#39;6&#39; {
-      $winbind_package = &#39;samba-winbind&#39;
-    } else {
-      $winbind_package = &#39;samba-common&#39;
-    }
+    $krb5_user_package  = &#39;krb5-workstation&#39;
+    $winbind_package    = &#39;samba-winbind&#39;
   } else {
-    $winbind_package = &#39;winbind&#39;
-    $krb5_user_package = &#39;krb5-user&#39;
+    $winbind_package    = &#39;winbind&#39;
+    $krb5_user_package  = &#39;krb5-user&#39;
   }
 
   package { [$krb5_user_package, $winbind_package, &#39;expect&#39;]:
-    ensure =&gt; installed;
+    ensure =&gt; installed,
+    before =&gt; Service[&#39;winbind&#39;],
   }
 
-  include samba::server::winbind
+  service { &#39;winbind&#39;:
+    ensure  =&gt; running,
+    enable  =&gt; true,
+    require =&gt; Class[&#39;samba::server&#39;],
+  }
 
   # notify winbind
   Samba::Server::Option {
-    notify =&gt; Class[&#39;Samba::Server::Winbind&#39;],
+    notify =&gt; Service[&#39;winbind&#39;],
   }
   samba::server::option {&quot;winbind uid=${winbind_uid}&quot;: }
   samba::server::option {&quot;winbind gid=${winbind_gid}&quot;: }
@@ -576,7 +578,7 @@ class samba::server::ads(
     path    =&gt; &#39;/sbin/verify_active_directory&#39;,
     owner   =&gt; root,
     group   =&gt; root,
-    mode    =&gt; &#39;0755&#39;,
+    mode    =&gt; &#39;0750&#39;,
     content =&gt; template(&quot;${module_name}/verify_active_directory.erb&quot;),
     require =&gt; [ Package[$krb5_user_package, $winbind_package, &#39;expect&#39;],
       Augeas[&#39;samba-realm&#39;, &#39;samba-security&#39;, &#39;samba-winbind enum users&#39;,
@@ -589,7 +591,7 @@ class samba::server::ads(
     path    =&gt; &#39;/sbin/configure_active_directory&#39;,
     owner   =&gt; root,
     group   =&gt; root,
-    mode    =&gt; &#39;0755&#39;,
+    mode    =&gt; &#39;0750&#39;,
     content =&gt; template(&quot;${module_name}/configure_active_directory.erb&quot;),
     require =&gt; [ Package[$krb5_user_package, $winbind_package, &#39;expect&#39;],
       Augeas[&#39;samba-realm&#39;, &#39;samba-security&#39;, &#39;samba-winbind enum users&#39;,

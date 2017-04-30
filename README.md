@@ -8,7 +8,7 @@ Module for provisioning Samba
 See reference and examples
 
 ## Reference
-[generated documentation](https://rawgit.com/GeoffWilliams/puppet-filemagic/master/doc/index.html).
+[generated documentation](https://rawgit.com/GeoffWilliams/puppet-samba/master/doc/index.html).
 
 Reference documentation is generated directly from source code using [puppet-strings](https://github.com/puppetlabs/puppet-strings).  You may regenerate the documentation by running:
 

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -z "$mock_testing" ] ; then
+  echo "Exiting with success due for mock testing"
+  exit 0
+fi
+
 # This script can cause a host to join or leave
 # the Windows Active Directory domain
 
@@ -57,7 +62,7 @@ done
 password='<%= scope.lookupvar('samba::server::ads::winbind_pass') -%>'
 
 # short hostname from facter
-my_hostname="<%= hostname -%>"
+my_hostname="<%= @hostname -%>"
 
 # what account do we use for net ads commands?
 winbind_acct="<%= scope.lookupvar('samba::server::ads::winbind_acct') -%>"
@@ -125,10 +130,11 @@ for attempt in $(seq 1 $max_attempts); do
     echo "$attempt of $max_attempts:"
     ad_settle
     echo "Getting TGT for ${winbind_acct}@${my_realm}" >&2
-    $EXPECT -c spawn -noecho kinit -c $KRB5CCNAME '${winbind_acct}@${my_realm};
+    $EXPECT -c "spawn -noecho kinit -c $KRB5CCNAME ${winbind_acct}@${my_realm};
         expect :;
-        send ${password}\n;
-        expect eof'
+        send {${password}};
+        send \n;
+        expect eof"
     klist -c $KRB5CCNAME &> /dev/null && break
 done
 
@@ -146,4 +152,3 @@ rm -f $KRB5CCNAME &> /dev/null || :
 fi
 
 [ "$success" = "true" ] && exit 0 || exit 1
-

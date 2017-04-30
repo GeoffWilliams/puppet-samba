@@ -1,42 +1,75 @@
-define samba::server::share($ensure = present,
-                            $browsable = '',
-                            $comment = '',
-                            $copy = '',
-                            $create_mask = '',
-                            $directory_mask = '',
-                            $force_create_mode = '',
-                            $force_directory_mode = '',
-                            $force_group = '',
-                            $force_user = '',
-                            $guest_account = '',
-                            $guest_ok = '',
-                            $guest_only = '',
-                            $path = '',
-                            $read_only = '',
-                            $public = '',
-                            $writable = '',
-                            $printable = '',
-                            $wide_links = '',
-                            $follow_symlinks = '',
-                            $valid_users = '') {
-  $config_file = $samba::params::samba_config_file
-  $target      = "target[. = '${name}']"
-  $context     = $samba::server::context
+# == Define samba::server::share
+#
+define samba::server::share(
+    $ensure = present,
+    $available = '',
+    $browsable = '',
+    $comment = '',
+    $copy = '',
+    $create_mask = '',
+    $directory_mask = '',
+    $force_create_mode = '',
+    $force_create_mask = '',
+    $force_directory_mode = '',
+    $force_group = '',
+    $force_user = '',
+    $guest_ok = '',
+    $guest_only = '',
+    $hide_unreadable = '',
+    $path = '',
+    $op_locks = '',
+    $level2_oplocks = '',
+    $veto_oplock_files = '',
+    $read_only = '',
+    $public = '',
+    $read_list = '',
+    $write_list = '',
+    $writable = '',
+    $printable = '',
+    $wide_links = '',
+    $follow_symlinks = '',
+    $valid_users = '',
+    $acl_group_control = '',
+    $map_acl_inherit = '',
+    $profile_acls = '',
+    $store_dos_attributes = '',
+    $strict_allocate = '',
+    $hide_dot_files = '',
+    $root_preexec = '',
+    $inherit_permissions = '',
+    $inherit_acls = '',
+    $delete_readonly = '',
+    $printer_name = '',
+    $msdfs_root = '',
+    $guest_account = '',
+) {
+
+  include samba::params
+  $config_file  = $samba::params::samba_config_file
+  $context      = $samba::server::context
+  $target       = "target[. = '${name}']"
+
+
+  $section_changes = $ensure ? {
+    present => "set ${target} '${name}'",
+    default => "rm ${target} '${name}'",
+  }
 
   augeas { "${name}-section":
-    incl    => "${config_file}",
+    incl    => $config_file,
     lens    => 'Samba.lns',
     context => $context,
-    changes => $ensure ? {
-      present => "set ${target} '${name}'",
-      default => "rm ${target} '${name}'",
-    },
-    require => Class['samba::server::config'],
-    notify  => Class['samba::server::service']
+    changes => $section_changes,
+    notify  => $samba::server::notify,
   }
 
   if $ensure == 'present' {
     $changes = [
+      $available ? {
+        true    => "set \"${target}/available\" yes",
+        false   => "set \"${target}/available\" no",
+        default => "rm  \"${target}/available\"",
+      },
       $browsable ? {
         true    => "set \"${target}/browsable\" yes",
         false   => "set \"${target}/browsable\" no",
@@ -47,16 +80,16 @@ define samba::server::share($ensure = present,
         ''      => "rm  \"${target}/comment\"",
       },
       $copy ? {
-        default => "set \"${target}/copy\" '${copy}'",
         ''      => "rm  \"${target}/copy\"",
+        default => "set \"${target}/copy\" '${copy}'",
       },
       $create_mask ? {
-        default => "set \"${target}/create mask\" '${create_mask}'",
         ''      => "rm  \"${target}/create mask\"",
+        default => "set \"${target}/create mask\" '${create_mask}'",
       },
       $directory_mask ? {
-        default => "set \"${target}/directory mask\" '${directory_mask}'",
         ''      => "rm  \"${target}/directory mask\"",
+        default => "set \"${target}/directory mask\" '${directory_mask}'",
       },
       $force_create_mode ? {
         default => "set \"${target}/force create mode\" '${force_create_mode}'",
@@ -66,17 +99,17 @@ define samba::server::share($ensure = present,
         default => "set \"${target}/force directory mode\" '${force_directory_mode}'",
         ''      => "rm  \"${target}/force directory mode\"",
       },
+      $force_create_mask ? {
+        ''      => "rm  \"${target}/force create mask\"",
+        default => "set \"${target}/force create mask\" '${force_create_mask}'",
+      },
       $force_group ? {
-        default => "set \"${target}/force group\" '${force_group}'",
         ''      => "rm  \"${target}/force group\"",
+        default => "set \"${target}/force group\" '${force_group}'",
       },
       $force_user ? {
-        default => "set \"${target}/force user\" '${force_user}'",
         ''      => "rm  \"${target}/force user\"",
-      },
-      $guest_account ? {
-        default => "set \"${target}/guest account\" '${guest_account}'",
-        ''      => "rm  \"${target}/guest account\"",
+        default => "set \"${target}/force user\" '${force_user}'",
       },
       $guest_ok ? {
         true    => "set \"${target}/guest ok\" yes",
@@ -88,6 +121,11 @@ define samba::server::share($ensure = present,
         false   => "set \"${target}/guest only\" no",
         default => "rm  \"${target}/guest only\"",
       },
+      $hide_unreadable ? {
+        true    => "set \"${target}/hide unreadable\" yes",
+        false   => "set \"${target}/hide unreadable\" no",
+        default => "rm  \"${target}/hide unreadable\"",
+      },
       $path ? {
         default => "set ${target}/path '${path}'",
         ''      => "rm  ${target}/path",
@@ -95,7 +133,7 @@ define samba::server::share($ensure = present,
       $read_only ? {
         true    => "set \"${target}/read only\" yes",
         false   => "set \"${target}/read only\" no",
-        default => "rm  \"${target}/read_only\"",
+        default => "rm  \"${target}/read only\"",
       },
       $public ? {
         true    => "set \"${target}/public\" yes",
@@ -126,16 +164,97 @@ define samba::server::share($ensure = present,
         default => "set \"${target}/valid users\" '${valid_users}'",
         ''      => "rm  \"${target}/valid users\"",
       },
+      $acl_group_control ? {
+        true    => "set \"${target}/acl group control\" yes",
+        false   => "set \"${target}/acl group control\" no",
+        default => "rm  \"${target}/acl group control\"",
+      },
+      $map_acl_inherit ? {
+        true    => "set \"${target}/map acl inherit\" yes",
+        false   => "set \"${target}/map acl inherit\" no",
+        default => "rm  \"${target}/map acl inherit\"",
+      },
+      $profile_acls ? {
+        true    => "set \"${target}/profile acls\" yes",
+        false   => "set \"${target}/profile acls\" no",
+        default => "rm  \"${target}/profile acls\"",
+      },
+      $store_dos_attributes ? {
+        true    => "set \"${target}/store dos attributes\" yes",
+        false   => "set \"${target}/store dos attributes\" no",
+        default => "rm  \"${target}/store dos attributes\"",
+      },
+      $strict_allocate ? {
+        true    => "set \"${target}/strict allocate\" yes",
+        false   => "set \"${target}/strict allocate\" no",
+        default => "rm  \"${target}/strict allocate\"",
+      },
+      $op_locks ? {
+        ''      => "rm  \"${target}/oplocks\"",
+        default => "set \"${target}/oplocks\" '${op_locks}'",
+      },
+      $level2_oplocks ? {
+        ''      => "rm  \"${target}/level2 oplocks\"",
+        default => "set \"${target}/level2 oplocks\" '${level2_oplocks}'",
+      },
+      $veto_oplock_files ? {
+        ''      => "rm  \"${target}/veto oplock files\"",
+        default => "set \"${target}/veto oplock files\" '${veto_oplock_files}'",
+      },
+      $read_list ? {
+        ''      => "rm  \"${target}/read list\"",
+        default => "set \"${target}/read list\" '${read_list}'",
+      },
+      $write_list ? {
+        ''      => "rm  \"${target}/write list\"",
+        default => "set \"${target}/write list\" '${write_list}'",
+      },
+      $hide_dot_files ? {
+        true    => "set \"${target}/hide dot files\" yes",
+        false   => "set \"${target}/hide dot files\" no",
+        default => "rm  \"${target}/hide dot files\"",
+      },
+      $root_preexec ? {
+        ''      => "rm  \"${target}/root preexec\"",
+        default => "set \"${target}/root preexec\" '${root_preexec}'",
+      },
+      $inherit_permissions ? {
+        true    => "set \"${target}/inherit permissions\" yes",
+        false   => "set \"${target}/inherit permissions\" no",
+        default => "rm  \"${target}/inherit permissions\"",
+      },
+      $inherit_acls ? {
+        true    => "set \"${target}/inherit acls\" yes",
+        false   => "set \"${target}/inherit acls\" no",
+        default => "rm  \"${target}/inherit acls\"",
+      },
+      $delete_readonly ? {
+        true    => "set \"${target}/delete readonly\" yes",
+        false   => "set \"${target}/delete readonly\" no",
+        default => "rm  \"${target}/delete readonly\"",
+      },
+      $printer_name ? {
+        ''      => "rm  \"${target}/printer name\"",
+        default => "set \"${target}/printer name\" '${printer_name}'",
+      },
+      $msdfs_root ? {
+        true    => "set \"${target}/msdfs root\" yes",
+        false   => "set \"${target}/msdfs root\" no",
+        default => "rm  \"${target}/msdfs root\"",
+      },
+      $guest_account ? {
+        ''      => "rm  \"${target}/guest account\"",
+        default => "set \"${target}/guest account\" '${guest_account}'",
+      },
     ]
 
     augeas { "${name}-changes":
-      incl    => "${config_file}",
+      incl    => $config_file,
       lens    => 'Samba.lns',
       context => $context,
       changes => $changes,
       require => Augeas["${name}-section"],
-      notify  => Class['samba::server::service']
+      notify  => $samba::server::notify,
     }
   }
 }
-

@@ -13,16 +13,51 @@
 # It may be imported or inherited by other classes
 #
 class samba::params {
-  $services = $::osfamily ? {
-    /(?i:RedHat)/ => 'smb',
-    /(?i:Debian)/ => 'smbd',
-    /(?i:Gentoo)/ => 'samba',
-    /(?i:Suse)/   => ['smb','nmb'],
-    default       => 'smbd',
+
+  case $facts['os']['family'] {
+    'Redhat': {
+      $services     = ['smb']
+      # $service_name = 'smb'
+      # $nmbd_name    = undef
+    }
+    'Debian': {
+      $services = "smbd"
+      case $facts['os']['name'] {
+        'Debian': {
+          case $facts['os']['release']['major'] {
+            '8': { $services = ['smbd'] }
+            default: { $services = ['samba'] }
+          }
+          # $nmbd_name = undef
+        }
+        'Ubuntu': {
+          $service = ['smbd', 'nmbd']
+          # $service_name = 'smbd'
+          # $nmbd_name    = 'nmbd'
+        }
+        default: { $service_name = 'samba' }
+      }
+    }
+    'Gentoo': {
+      $services     = ['samba']
+      # $service      = 'samba'
+      # $nmbd_name    = undef
+      # $service_name = 'samba'
+    }
+    'Archlinux': {
+      $service = ['smbd', 'nmbd']
+      # $service_name = 'smbd'
+      # $nmbd_name    = 'nmbd'
+    }
+    'Suse': {
+      $services     = ['smb','nmb']
+      # $service      = 'smb'
+      # $service_name = 'smb'
+      # $nmbd_name    = 'nmbd'
+    }
+    default: { fail("${::osfamily} is not supported by ${module_name}.") }
   }
 
   $samba_config_dir  = '/etc/samba'
   $samba_config_file = '/etc/samba/smb.conf'
 }
-
-

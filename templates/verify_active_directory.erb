@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -z "$mock_testing" ] ; then
+  echo "Exiting with success due for mock testing"
+  exit 0
+fi
+
 PROG=$(basename $0)
 export EXPIRATION=90
 
@@ -21,10 +26,10 @@ fi
 #  } >&2
 #fi
 
-password="<%= scope.lookupvar('samba::server::ads::winbind_pass') -%>"
+password='<%= scope.lookupvar('samba::server::ads::winbind_pass') -%>'
 
 # short hostname from facter
-my_hostname="<%= hostname -%>"
+my_hostname="<%= @hostname -%>"
 
 winbind_acct="<%= scope.lookupvar('samba::server::ads::winbind_acct') -%>"
 
@@ -62,7 +67,8 @@ get_tgt() {
   (
   $EXPECT -c "spawn -noecho kinit -c $KRB5CCNAME ${winbind_acct}@${default_realm};
 	expect :;
-	send ${password}\n;
+	send {${password}};
+	send \n;
 	expect eof"
   ) &> /dev/null
   klist -c $KRB5CCNAME &> /dev/null
@@ -105,4 +111,3 @@ fi
 [[ $success == "false" ]] && exit 1
 
 exit 0
-

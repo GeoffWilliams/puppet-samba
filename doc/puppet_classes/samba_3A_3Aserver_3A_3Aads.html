@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Puppet Class: samba::server::ads
+  
+    &mdash; Documentation by YARD 0.9.9
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "puppet_classes::samba::server::ads";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (s)</a> &raquo;
+    <span class='title'><span class='object_link'>Puppet Classes</span></span>
+     &raquo; 
+    <span class="title">samba::server::ads</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="../puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Puppet Class: samba::server::ads</h1>
+<div class="box_info">
+  
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>
+      manifests/server/ads.pp
+    </dd>
+  </dl>
+</div>
+<h2>Overview</h2>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>== Class samba::server::ads This module join samba server to Active
+Dirctory</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ensure</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>present</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>winbind_acct</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;admin&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>winbind_pass</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;SecretPass&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>winbind_uid</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;10000-20000&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>winbind_gid</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;10000-20000&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>winbind_enum_groups</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>winbind_enum_users</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>winbind_use_default_domain</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nsswitch</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>acl_group_control</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>map_acl_inherit</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>inherit_acls</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>store_dos_attributes</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ea_support</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>dos_filemode</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;yes&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>acl_check_permissions</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>map_system</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;no&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>map_archive</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;no&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>map_readonly</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;no&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>target_ou</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;Nix_Mashine&#39;</tt>)</em>
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>perform_join</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><div class="method_details_list">
+  <table class="source_code">
+    <tr>
+      <td>
+        <pre class="lines">
+
+
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121</pre>
+      </td>
+      <td>
+        <pre class="code"><span class="info file"># File 'manifests/server/ads.pp', line 4</span>
+
+class samba::server::ads(
+  $ensure                     = present,
+  $winbind_acct               = &#39;admin&#39;,
+  $winbind_pass               = &#39;SecretPass&#39;,
+  $winbind_uid                = &#39;10000-20000&#39;,
+  $winbind_gid                = &#39;10000-20000&#39;,
+  $winbind_enum_groups        = &#39;yes&#39;,
+  $winbind_enum_users         = &#39;yes&#39;,
+  $winbind_use_default_domain = &#39;yes&#39;,
+  $nsswitch                   = false,
+  $acl_group_control          = &#39;yes&#39;,
+  $map_acl_inherit            = &#39;yes&#39;,
+  $inherit_acls               = &#39;yes&#39;,
+  $store_dos_attributes       = &#39;yes&#39;,
+  $ea_support                 = &#39;yes&#39;,
+  $dos_filemode               = &#39;yes&#39;,
+  $acl_check_permissions      = false,
+  $map_system                 = &#39;no&#39;,
+  $map_archive                = &#39;no&#39;,
+  $map_readonly               = &#39;no&#39;,
+  $target_ou                  = &#39;Nix_Mashine&#39;,
+  $perform_join               = true) {
+
+  if $facts[&#39;os&#39;][&#39;family&#39;] == &#39;RedHat&#39; {
+    $krb5_user_package = &#39;krb5-workstation&#39;
+    if $facts[&#39;os&#39;][&#39;release&#39;][&#39;major&#39;] == &#39;6&#39; {
+      $winbind_package = &#39;samba-winbind&#39;
+    } else {
+      $winbind_package = &#39;samba-common&#39;
+    }
+  } else {
+    $winbind_package = &#39;winbind&#39;
+    $krb5_user_package = &#39;krb5-user&#39;
+  }
+
+  package { [$krb5_user_package, $winbind_package, &#39;expect&#39;]:
+    ensure =&gt; installed;
+  }
+
+  include samba::server::winbind
+
+  # notify winbind
+  Samba::Server::Option {
+    notify =&gt; Class[&#39;Samba::Server::Winbind&#39;],
+  }
+  samba::server::option {&quot;winbind uid=${winbind_uid}&quot;: }
+  samba::server::option {&quot;winbind gid=${winbind_gid}&quot;: }
+  samba::server::option {&quot;winbind enum groups=${winbind_enum_groups}&quot;: }
+  samba::server::option {&quot;winbind enum users=${winbind_enum_users}&quot;: }
+  samba::server::option {&quot;winbind use default domain=${winbind_use_default_domain}&quot;: }
+
+
+  samba::server::option {&quot;acl group control=${acl_group_control}&quot;: }
+  samba::server::option {&quot;map acl inherit=${map_acl_inherit}&quot;: }
+  samba::server::option {&quot;inherit acls=inherit_acls&quot;: }
+  samba::server::option {&quot;store dos attributes=store_dos_attributes&quot;: }
+  samba::server::option {&quot;ea support=${ea_support}&quot;: }
+  samba::server::option {&quot;dos filemode=${dos_filemode}&quot;: }
+  samba::server::option {&quot;acl check permissions=${acl_check_permissions}&quot;: }
+  samba::server::option {&quot;map system=${map_system}&quot;: }
+  samba::server::option {&quot;map archive=${map_archive}&quot;: }
+  samba::server::option {&quot;map readonly=${map_readonly}&quot;: }
+
+  $nss_file = &#39;etc/nsswitch.conf&#39;
+
+  $changes = $nsswitch ? {
+      true =&gt; [
+        &#39;set database[. = &quot;passwd&quot;]/service[1] compat&#39;,
+        &#39;set database[. = &quot;passwd&quot;]/service[2] winbind&#39;,
+        &#39;set database[. = &quot;group&quot;]/service[1] compat&#39;,
+        &#39;set database[. = &quot;group&quot;]/service[2] winbind&#39;,
+      ],
+      false =&gt; [
+        &quot;rm /files/${nss_file}/database[. = &#39;passwd&#39;]/service[. = &#39;winbind&#39;]&quot;,
+        &quot;rm /files/${nss_file}/database[. = &#39;group&#39;]/service[. = &#39;winbind&#39;]&quot;,
+      ]
+    }
+
+  augeas { &#39;nsswitch&#39;:
+    context =&gt; &quot;/files/${nss_file}&quot;,
+    changes =&gt; $changes
+  }
+
+  file {&#39;verify_active_directory&#39;:
+    # this script returns 0 if join is intact
+    path    =&gt; &#39;/sbin/verify_active_directory&#39;,
+    owner   =&gt; root,
+    group   =&gt; root,
+    mode    =&gt; &#39;0755&#39;,
+    content =&gt; template(&quot;${module_name}/verify_active_directory.erb&quot;),
+    require =&gt; [ Package[$krb5_user_package, $winbind_package, &#39;expect&#39;],
+      Augeas[&#39;samba-realm&#39;, &#39;samba-security&#39;, &#39;samba-winbind enum users&#39;,
+        &#39;samba-winbind enum groups&#39;, &#39;samba-winbind uid&#39;, &#39;samba-winbind gid&#39;,
+        &#39;samba-winbind use default domain&#39;], Service[&#39;winbind&#39;] ],
+  }
+
+  file {&#39;configure_active_directory&#39;:
+    # this script joins or leaves a domain
+    path    =&gt; &#39;/sbin/configure_active_directory&#39;,
+    owner   =&gt; root,
+    group   =&gt; root,
+    mode    =&gt; &#39;0755&#39;,
+    content =&gt; template(&quot;${module_name}/configure_active_directory.erb&quot;),
+    require =&gt; [ Package[$krb5_user_package, $winbind_package, &#39;expect&#39;],
+      Augeas[&#39;samba-realm&#39;, &#39;samba-security&#39;, &#39;samba-winbind enum users&#39;,
+        &#39;samba-winbind enum groups&#39;, &#39;samba-winbind uid&#39;, &#39;samba-winbind gid&#39;,
+        &#39;samba-winbind use default domain&#39;], Service[&#39;winbind&#39;] ],
+  }
+
+  if ($perform_join) {
+    exec {&#39;join-active-directory&#39;:
+      # join the domain configured in samba.conf
+      command =&gt; &#39;/sbin/configure_active_directory -j&#39;,
+      unless  =&gt; &#39;/sbin/verify_active_directory&#39;,
+      require =&gt; [ File[&#39;configure_active_directory&#39;, &#39;verify_active_directory&#39;], Service[&#39;winbind&#39;] ],
+    }
+  }
+}</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>

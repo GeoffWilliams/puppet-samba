@@ -1,4 +1,7 @@
-.DS_Store
-pkg/
-.idea/
-*~
+/spec/fixtures
+Gemfile.lock
+Puppetfile.lock
+.librarian
+.tmp
+.yardoc
+/pkg

@@ -1,14 +1,20 @@
 # == Define samba::server::option
 #
 define samba::server::option (
-    $value  = '',
+    $value  = false,
 ) {
 
     # Attempt to parse variable name and value from title if it is in the form X=x
   if $title =~ /.+=.*/ {
     $split  = split($title, '=')
     $_name  = $split[0]
-    $_value = $split[1]
+
+    # in key=value form, split[1] will arive as the string 'false'
+    if $split[1] == 'false' {
+      $_value = false
+    } else {
+      $_value = $split[1]
+    }
   } else {
     $_name  = $name
     $_value = $value
@@ -23,11 +29,10 @@ define samba::server::option (
   $services           = $samba::params::services
   $manage_service     = $samba::server::manage_service
 
-  $changes = $value ? {
-    ''      => "rm ${target}/${_name}",
-    default => "set \"${target}/${_name}\" \"${_value}\"",
+  $changes = $_value ? {
+    false   => "rm ${target}/${_name}",
+    default => "set '${target}/${_name}' '${_value}'",
   }
-
 
   augeas { "samba-${_name}":
     incl    => $samba_config_file,

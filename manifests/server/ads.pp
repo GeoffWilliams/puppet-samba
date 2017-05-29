@@ -1,6 +1,9 @@
 # == Class samba::server::ads
 # This module join samba server to Active Dirctory
 #
+# In general, the equivalent smb.conf parameters will be removed when the value
+# for a class parameter is set to `false`.  if you want to keep the line in the
+# file but turn off the feature, the value you are looking for is probably `no`
 class samba::server::ads(
   $ensure                     = present,
   $winbind_acct               = 'admin',
@@ -56,8 +59,8 @@ class samba::server::ads(
 
   samba::server::option {"acl group control=${acl_group_control}": }
   samba::server::option {"map acl inherit=${map_acl_inherit}": }
-  samba::server::option {"inherit acls=inherit_acls": }
-  samba::server::option {"store dos attributes=store_dos_attributes": }
+  samba::server::option {"inherit acls=${inherit_acls}": }
+  samba::server::option {"store dos attributes=${store_dos_attributes}": }
   samba::server::option {"ea support=${ea_support}": }
   samba::server::option {"dos filemode=${dos_filemode}": }
   samba::server::option {"acl check permissions=${acl_check_permissions}": }

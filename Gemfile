@@ -12,4 +12,4 @@ gem 'rspec-puppet-facts', '1.7.0'
 gem 'puppet-strings',
   :git => 'https://github.com/declarativesystems/puppet-strings',
   :ref => 'no_dates'
-gem 'pdqtest', '0.3.5'
+gem 'pdqtest', '0.4.3'

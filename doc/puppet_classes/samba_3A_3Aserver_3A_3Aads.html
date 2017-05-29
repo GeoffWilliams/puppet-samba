@@ -544,8 +544,8 @@ class samba::server::ads(
 
   samba::server::option {&quot;acl group control=${acl_group_control}&quot;: }
   samba::server::option {&quot;map acl inherit=${map_acl_inherit}&quot;: }
-  samba::server::option {&quot;inherit acls=inherit_acls&quot;: }
-  samba::server::option {&quot;store dos attributes=store_dos_attributes&quot;: }
+  samba::server::option {&quot;inherit acls=${inherit_acls}&quot;: }
+  samba::server::option {&quot;store dos attributes=${store_dos_attributes}&quot;: }
   samba::server::option {&quot;ea support=${ea_support}&quot;: }
   samba::server::option {&quot;dos filemode=${dos_filemode}&quot;: }
   samba::server::option {&quot;acl check permissions=${acl_check_permissions}&quot;: }

@@ -88,7 +88,7 @@
         <span class='type'>(<tt>Any</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
     </li>
@@ -140,20 +140,31 @@
 37
 38
 39
-40</pre>
+40
+41
+42
+43
+44
+45</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/server/option.pp', line 3</span>
 
 define samba::server::option (
-    $value  = &#39;&#39;,
+    $value  = false,
 ) {
 
     # Attempt to parse variable name and value from title if it is in the form X=x
   if $title =~ /.+=.*/ {
     $split  = split($title, &#39;=&#39;)
     $_name  = $split[0]
-    $_value = $split[1]
+
+    # in key=value form, split[1] will arive as the string &#39;false&#39;
+    if $split[1] == &#39;false&#39; {
+      $_value = false
+    } else {
+      $_value = $split[1]
+    }
   } else {
     $_name  = $name
     $_value = $value
@@ -168,11 +179,10 @@ define samba::server::option (
   $services           = $samba::params::services
   $manage_service     = $samba::server::manage_service
 
-  $changes = $value ? {
-    &#39;&#39;      =&gt; &quot;rm ${target}/${_name}&quot;,
-    default =&gt; &quot;set \&quot;${target}/${_name}\&quot; \&quot;${_value}\&quot;&quot;,
+  $changes = $_value ? {
+    false   =&gt; &quot;rm ${target}/${_name}&quot;,
+    default =&gt; &quot;set &#39;${target}/${_name}&#39; &#39;${_value}&#39;&quot;,
   }
-
 
   augeas { &quot;samba-${_name}&quot;:
     incl    =&gt; $samba_config_file,

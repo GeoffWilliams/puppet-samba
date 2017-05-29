@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-samba",
-  "version": "0.6.2",
+  "version": "1.0.0",
   "author": "Geoff Williams",
   "summary": "Module for provisioning Samba",
   "license": "MIT",
